@@ -1,0 +1,167 @@
+// tree code borrowed heavily from Ilya Pestov's family tree
+// at http://codepen.io/Pestov/pen/BLpgm
+.tree {
+	$tree-branch-height: 20px;
+	$tree-branch-roundness: 5px;
+
+	* {margin: 0; padding: 0;}
+
+	ul.tree-branch {
+		padding-top: $tree-branch-height;
+		position: relative;
+		display: flex;
+	}
+
+	li.tree-node {
+		float: left; text-align: center;
+		list-style-type: none;
+		position: relative;
+		padding: 20px 5px 0 5px;
+	}
+
+		// We will use ::before and ::after to draw the connectors
+	li.tree-node::before, li.tree-node::after{
+		content: '';
+		position: absolute; top: 0; right: 50%;
+		border-top: 1px solid $tree-branch-color;
+		width: 50%; height: $tree-branch-height;
+	}
+
+	li.tree-node::after{
+		right: auto; left: 50%;
+		border-left: 1px solid $tree-branch-color;
+	}
+
+	// We need to remove left-right connectors from elements without any siblings
+	 li.tree-node:only-child::after, li.tree-node:only-child::before {
+		display: none;
+	}
+
+	// Remove space from the top of single children
+	li.tree-node:only-child{ padding-top: 0;}
+
+	// Remove left connector from first child and right connector from last child
+	li.tree-node:first-child::before, li.tree-node:last-child::after{
+		border: 0 none;
+	}
+
+	// Adding back the vertical connector to the last nodes
+	li.tree-node:last-child::before{
+		border-right: 1px solid #ccc;
+		@include rounded(0 $tree-branch-roundness 0 0);
+	}
+
+	li.tree-node:first-child::after{
+		@include rounded($tree-branch-roundness 0 0 0);
+	}
+
+	// Time to add downward connectors from parents
+	ul.tree-branch ul.tree-branch::before{
+		content: '';
+		position: absolute; top: 0; left: 50%;
+		border-left: 1px solid $tree-branch-color;
+		width: 0; height: $tree-branch-height;
+	}
+}
+
+.query-plan-node {
+	border: 1px solid	$tree-branch-color;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: $tree-node-color;
+	font-family: $tree-node-font;
+	font-size: $tree-node-font-size;
+	display: inline-block;
+  text-align: left;
+	@include transition(all .25s);
+	@include rounded(3px);
+	@include box-shadow(1px, 1px, 3px, rgba(0,0,0,0.1));
+
+	/*Time for some hover effects*/
+	/*We will apply the hover effect the the lineage of the element also*/
+	&:hover, &:hover+ul li div.query-plan-node {
+		border: 1px solid $tree-node-highlight-color;
+		@include box-shadow(1px, 1px, 3px, rgba($tree-node-highlight-color, .2));
+	}
+
+	/*Connector styles on hover*/
+	&:hover+ul li::after,
+	&:hover+ul li::before,
+	&:hover+ul::before,
+	&:hover+ul ul::before{
+		border-color: $tree-node-highlight-color;
+	}
+
+	// reset some of the default summary styling
+	summary {outline:none;}
+	summary:hover {cursor: pointer;	}
+	details summary::-webkit-details-marker, details summary::before {
+			display: none;
+	}
+
+	details {
+	    width: 260px;
+	    display: inline-block;
+			@include transition(width .1s ease);
+			@include transition(height .1s ease);
+	}
+
+	details[open] {
+	    width: 300px;
+	    display: inline-block;
+	}
+
+	header h3 {
+	    font-weight: 600;
+	    font-size: 1.455em;
+	    line-height: 1.636em;
+	    text-transform: uppercase;
+	    float: left;
+	}
+
+	header {
+			@include clearfix;
+	}
+
+	header .node-duration {
+	    float: right;
+	    right: 0px;
+	}
+
+	details table {
+	    border-collapse: collapse;
+	    margin: .5em 0;
+	    width: 100%;
+	}
+
+	details table th {
+	    width: 180px;
+	}
+
+	details table td, details table th {
+	    border-bottom: 1px solid rgba($tree-node-color, .1);
+	}
+
+	details li {
+	    margin-left:2em;
+	}
+
+	.query-plan-node-bar {
+	    height: 5px;
+	    margin-top: 10px;
+	    margin-bottom: 3px;
+	    border-radius: 6px;
+	    background-color: #dedede;
+	    position: relative;
+	}
+
+	.query-plan-node-bar-fill {
+	    border-radius: 6px;
+	    height: 100%;
+			background-color: $tree-node-bar-color;
+	    text-align: left;
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	}
+}
