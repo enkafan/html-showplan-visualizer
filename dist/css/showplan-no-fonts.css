@@ -13,40 +13,33 @@
   list-style-type: none;
   position: relative;
   padding: 20px 5px 0 5px; }
-
-.tree li.tree-node::before, .tree li.tree-node::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 50%;
-  border-top: 1px solid #ccc;
-  width: 50%;
-  height: 20px; }
-
-.tree li.tree-node::after {
-  right: auto;
-  left: 50%;
-  border-left: 1px solid #ccc; }
-
-.tree li.tree-node:only-child::after, .tree li.tree-node:only-child::before {
-  display: none; }
-
-.tree li.tree-node:only-child {
-  padding-top: 0; }
-
-.tree li.tree-node:first-child::before, .tree li.tree-node:last-child::after {
-  border: 0 none; }
-
-.tree li.tree-node:last-child::before {
-  border-right: 1px solid #ccc;
-  -webkit-border-radius: 0 5px 0 0;
-  -moz-border-radius: 0 5px 0 0;
-  border-radius: 0 5px 0 0; }
-
-.tree li.tree-node:first-child::after {
-  -webkit-border-radius: 5px 0 0 0;
-  -moz-border-radius: 5px 0 0 0;
-  border-radius: 5px 0 0 0; }
+  .tree li.tree-node::before, .tree li.tree-node::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 1px solid #ccc;
+    width: 50%;
+    height: 20px; }
+  .tree li.tree-node::after {
+    right: auto;
+    left: 50%;
+    border-left: 1px solid #ccc; }
+  .tree li.tree-node:only-child::after, .tree li.tree-node:only-child::before {
+    display: none; }
+  .tree li.tree-node:only-child {
+    padding-top: 0; }
+  .tree li.tree-node:first-child::before, .tree li.tree-node:last-child::after {
+    border: 0 none; }
+  .tree li.tree-node:last-child::before {
+    border-right: 1px solid #ccc;
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0;
+    border-radius: 0 5px 0 0; }
+  .tree li.tree-node:first-child::after {
+    -webkit-border-radius: 5px 0 0 0;
+    -moz-border-radius: 5px 0 0 0;
+    border-radius: 5px 0 0 0; }
 
 .tree ul.tree-branch ul.tree-branch::before {
   content: '';
@@ -58,6 +51,7 @@
   height: 20px; }
 
 .query-plan-node {
+  background-color: #fff;
   border: 1px solid #ccc;
   padding: 5px 10px;
   text-decoration: none;
@@ -88,6 +82,7 @@
   .query-plan-node:hover + ul li::after,
   .query-plan-node:hover + ul li::before,
   .query-plan-node:hover + ul::before,
+  .query-plan-node:hover + ul ul::after,
   .query-plan-node:hover + ul ul::before {
     border-color: #317ECC; }
   .query-plan-node summary {

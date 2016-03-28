@@ -13,11 +13,17 @@
         <title>Execution plan</title>
         <link rel="stylesheet" type="text/css" href="../../dist/css/showplan.css" />
       </head>
-      <body>
-        <div>
+      <body style="background-color: #f5f5f5">
+        <div style="position:relative;overflow-x:auto" id="container">
           <xsl:apply-templates select="s:ShowPlanXML" />
         </div>
+        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
         <script src="../../dist/showplan.js"></script>
+        <script>
+          $( document ).ready(function() {
+            $("#container").centerQueryPlan();
+          });
+        </script>
       </body>
     </html>
   </xsl:template>

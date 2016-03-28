@@ -17,6 +17,7 @@
         <div>
           <xsl:apply-templates select="s:ShowPlanXML" />
         </div>
+        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
         <script src="../../dist/showplan.js"></script>
       </body>
     </html>

@@ -29,7 +29,7 @@
   <xsl:template match="s:StmtSimple">
     <li class="tree-node">
       <div class="query-plan-node">
-        <details open="open">
+        <details>
           <summary>
             <header>
               <xsl:apply-templates select="." mode="NodeLabel" />
@@ -291,7 +291,7 @@
       <div>
         Cost: <xsl:call-template name="round">
           <xsl:with-param name="value" select="$EstimatedOperatorCost" />
-        </xsl:call-template>
+        </xsl:call-template>  | Rows: <xsl:value-of select="@StatementEstRows | @EstimateRows" />
       </div>
     </div>
   </xsl:template>

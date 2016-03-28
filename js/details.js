@@ -88,7 +88,12 @@ function toggleDetails(event) {
     }, 13);
 
     if (keypress) {
-      event.preventDefault && event.preventDefault();
+      if (event.preventDefault) {
+        event.preventDefault();
+      }
+      else {
+        event.returnValue = false;
+      }
       return false;
     }
   }
@@ -118,7 +123,7 @@ label.appendChild(document.createTextNode('Details'));
 while (i--) {
   first = firstNode(details[i]);
 
-  if (first != null && first.nodeName.toUpperCase() == 'SUMMARY') {
+  if (first !== null && first.nodeName.toUpperCase() == 'SUMMARY') {
     // we've found that there's a details label already
   } else {
     // first = label.cloneNode(true); // cloned nodes weren't picking up styles in IE - random

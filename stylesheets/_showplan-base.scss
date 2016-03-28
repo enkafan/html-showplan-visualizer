@@ -17,42 +17,44 @@
 		list-style-type: none;
 		position: relative;
 		padding: 20px 5px 0 5px;
-	}
 
 		// We will use ::before and ::after to draw the connectors
-	li.tree-node::before, li.tree-node::after{
-		content: '';
-		position: absolute; top: 0; right: 50%;
-		border-top: 1px solid $tree-branch-color;
-		width: 50%; height: $tree-branch-height;
-	}
+		&::before, &::after{
+			content: '';
+			position: absolute; top: 0; right: 50%;
+			border-top: 1px solid $tree-branch-color;
+			width: 50%; height: $tree-branch-height;
+		}
 
-	li.tree-node::after{
-		right: auto; left: 50%;
-		border-left: 1px solid $tree-branch-color;
-	}
+		&::after{
+			right: auto; left: 50%;
+			border-left: 1px solid $tree-branch-color;
+		}
 
-	// We need to remove left-right connectors from elements without any siblings
-	 li.tree-node:only-child::after, li.tree-node:only-child::before {
-		display: none;
-	}
+		// We need to remove left-right connectors from elements without any siblings
+		&:only-child::after, &:only-child::before {
+			display: none;
+		}
 
-	// Remove space from the top of single children
-	li.tree-node:only-child{ padding-top: 0;}
+		// Remove space from the top of single children
+		&:only-child{
+			padding-top: 0;
+		}
 
-	// Remove left connector from first child and right connector from last child
-	li.tree-node:first-child::before, li.tree-node:last-child::after{
-		border: 0 none;
-	}
+		// Remove left connector from first child and right connector from last child
+		&:first-child::before, &:last-child::after{
+			border: 0 none;
+		}
 
-	// Adding back the vertical connector to the last nodes
-	li.tree-node:last-child::before{
-		border-right: 1px solid #ccc;
-		@include rounded(0 $tree-branch-roundness 0 0);
-	}
+		// Adding back the vertical connector to the last nodes
+		&:last-child::before{
+			border-right: 1px solid #ccc;
+			@include rounded(0 $tree-branch-roundness 0 0);
+		}
 
-	li.tree-node:first-child::after{
-		@include rounded($tree-branch-roundness 0 0 0);
+		&:first-child::after{
+			@include rounded($tree-branch-roundness 0 0 0);
+		}
 	}
 
 	// Time to add downward connectors from parents
@@ -65,6 +67,7 @@
 }
 
 .query-plan-node {
+	background-color: $tree-branch-background-color;
 	border: 1px solid	$tree-branch-color;
 	padding: 5px 10px;
 	text-decoration: none;
@@ -88,6 +91,7 @@
 	&:hover+ul li::after,
 	&:hover+ul li::before,
 	&:hover+ul::before,
+	&:hover+ul ul::after,
 	&:hover+ul ul::before{
 		border-color: $tree-node-highlight-color;
 	}

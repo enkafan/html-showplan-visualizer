@@ -88,7 +88,12 @@ function toggleDetails(event) {
     }, 13);
 
     if (keypress) {
-      event.preventDefault && event.preventDefault();
+      if (event.preventDefault) {
+        event.preventDefault();
+      }
+      else {
+        event.returnValue = false;
+      }
       return false;
     }
   }
@@ -118,7 +123,7 @@ label.appendChild(document.createTextNode('Details'));
 while (i--) {
   first = firstNode(details[i]);
 
-  if (first != null && first.nodeName.toUpperCase() == 'SUMMARY') {
+  if (first !== null && first.nodeName.toUpperCase() == 'SUMMARY') {
     // we've found that there's a details label already
   } else {
     // first = label.cloneNode(true); // cloned nodes weren't picking up styles in IE - random
@@ -152,3 +157,14 @@ addEvent(details, 'keypress', toggleDetails);
 addStyle();
 
 })(window, document);
+
+(function ($) {
+    $.fn.extend({
+        centerQueryPlan: function() {
+            var $parent = this;
+            var $rootElement = this.find(".query-plan-root:first .tree-branch > .tree-node").first();
+            var newLeft = $parent.scrollLeft() + $rootElement.position().left - $parent.width() / 2 + $rootElement.width() / 2;
+            $parent.scrollLeft(newLeft);
+        }
+    });
+})(jQuery);
