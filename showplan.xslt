@@ -318,27 +318,21 @@
 
   <xsl:template match="*/s:Object" mode="ShowPlanDetails">
     <!-- TODO: Make sure this works all the time -->
-    <div>
-      <strong>Object</strong>
-    </div>
+    <h4>Object</h4>
     <div>
       <xsl:apply-templates select="." mode="ObjectName" />
     </div>
   </xsl:template>
 
   <xsl:template match="s:SetPredicate[s:ScalarOperator/@ScalarString]" mode="ShowPlanDetails">
-    <div>
-      <strong>Predicate</strong>
-    </div>
+    <h4>Predicate</h4>
     <div>
       <xsl:value-of select="s:ScalarOperator/@ScalarString" />
     </div>
   </xsl:template>
 
   <xsl:template match="s:OutputList[count(s:ColumnReference) > 0]" mode="ShowPlanDetails">
-    <div>
-      <strong>Output List</strong>
-    </div>
+    <h4>Output List</h4>
     <ul>
       <xsl:for-each select="s:ColumnReference">
         <li>
@@ -349,9 +343,7 @@
   </xsl:template>
 
   <xsl:template match="s:NestedLoops/s:OuterReferences[count(s:ColumnReference) > 0]" mode="ShowPlanDetails">
-    <div>
-      <strong>Outer References</strong>
-    </div>
+    <h4>Outer References</h4>
     <ul>
       <xsl:for-each select="s:ColumnReference">
         <li>
@@ -362,16 +354,14 @@
   </xsl:template>
 
   <xsl:template match="@StatementText" mode="ShowPlanDetails">
-    <div><strong>Statement</strong></div>
-    <div>
+    <h4>Statement</h4>
+    <pre>
       <xsl:value-of select="." />
-    </div>
+    </pre>
   </xsl:template>
 
   <xsl:template match="s:Sort/s:OrderBy[count(s:OrderByColumn/s:ColumnReference) > 0]" mode="ShowPlanDetails">
-    <div>
-      <strong>Order By</strong>
-    </div>
+    <h4>Order By</h4>
     <ul>
       <xsl:for-each select="s:OrderByColumn">
         <li>
@@ -382,7 +372,6 @@
           </xsl:choose>
         </li>
       </xsl:for-each>
-
     </ul>
   </xsl:template>
 

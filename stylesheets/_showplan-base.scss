@@ -105,6 +105,7 @@
 	details {
 	    width: 260px;
 	    display: inline-block;
+			text-overflow: ellipsis;
 			@include transition(width .1s ease);
 			@include transition(height .1s ease);
 
@@ -118,7 +119,12 @@
 			}
 
 			li {
-					margin-left:2em;
+					margin-left: 2em;
+			}
+
+			div {
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 	}
 

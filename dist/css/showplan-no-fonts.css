@@ -82,7 +82,6 @@
   .query-plan-node:hover + ul li::after,
   .query-plan-node:hover + ul li::before,
   .query-plan-node:hover + ul::before,
-  .query-plan-node:hover + ul ul::after,
   .query-plan-node:hover + ul ul::before {
     border-color: #317ECC; }
   .query-plan-node summary {
@@ -94,6 +93,7 @@
   .query-plan-node details {
     width: 260px;
     display: inline-block;
+    text-overflow: ellipsis;
     -webkit-transition: width 0.1s ease;
     -moz-transition: width 0.1s ease;
     -ms-transition: width 0.1s ease;
@@ -104,15 +104,22 @@
     -ms-transition: height 0.1s ease;
     -o-transition: height 0.1s ease;
     transition: height 0.1s ease; }
+    .query-plan-node details table {
+      border-collapse: collapse;
+      margin: .5em 0;
+      width: 100%; }
+      .query-plan-node details table th {
+        width: 180px; }
+      .query-plan-node details table td, .query-plan-node details table th {
+        border-bottom: 1px solid rgba(102, 102, 102, 0.1); }
+    .query-plan-node details li {
+      margin-left: 2em; }
+    .query-plan-node details div {
+      overflow: hidden;
+      text-overflow: ellipsis; }
   .query-plan-node details[open] {
     width: 300px;
     display: inline-block; }
-  .query-plan-node header h3 {
-    font-weight: 600;
-    font-size: 1.455em;
-    line-height: 1.636em;
-    text-transform: uppercase;
-    float: left; }
   .query-plan-node header {
     *zoom: 1; }
     .query-plan-node header:before, .query-plan-node header:after {
@@ -120,19 +127,15 @@
       display: table; }
     .query-plan-node header:after {
       clear: both; }
-  .query-plan-node header .node-duration {
-    float: right;
-    right: 0px; }
-  .query-plan-node details table {
-    border-collapse: collapse;
-    margin: .5em 0;
-    width: 100%; }
-  .query-plan-node details table th {
-    width: 180px; }
-  .query-plan-node details table td, .query-plan-node details table th {
-    border-bottom: 1px solid rgba(102, 102, 102, 0.1); }
-  .query-plan-node details li {
-    margin-left: 2em; }
+    .query-plan-node header h3 {
+      font-weight: 600;
+      font-size: 1.455em;
+      line-height: 1.636em;
+      text-transform: uppercase;
+      float: left; }
+    .query-plan-node header .node-duration {
+      float: right;
+      right: 0px; }
   .query-plan-node .query-plan-node-bar {
     height: 5px;
     margin-top: 10px;
@@ -140,11 +143,11 @@
     border-radius: 6px;
     background-color: #dedede;
     position: relative; }
-  .query-plan-node .query-plan-node-bar-fill {
-    border-radius: 6px;
-    height: 100%;
-    background-color: #55aa55;
-    text-align: left;
-    position: absolute;
-    left: 0;
-    top: 0; }
+    .query-plan-node .query-plan-node-bar .query-plan-node-bar-fill {
+      border-radius: 6px;
+      height: 100%;
+      background-color: #55aa55;
+      text-align: left;
+      position: absolute;
+      left: 0;
+      top: 0; }
