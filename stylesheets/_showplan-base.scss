@@ -91,7 +91,6 @@
 	&:hover+ul li::after,
 	&:hover+ul li::before,
 	&:hover+ul::before,
-	&:hover+ul ul::after,
 	&:hover+ul ul::before{
 		border-color: $tree-node-highlight-color;
 	}
@@ -108,6 +107,19 @@
 	    display: inline-block;
 			@include transition(width .1s ease);
 			@include transition(height .1s ease);
+
+			table {
+					border-collapse: collapse;
+					margin: .5em 0;
+					width: 100%;
+
+					th { width: 180px; }
+					td, th { border-bottom: 1px solid rgba($tree-node-color, .1); }
+			}
+
+			li {
+					margin-left:2em;
+			}
 	}
 
 	details[open] {
@@ -115,39 +127,21 @@
 	    display: inline-block;
 	}
 
-	header h3 {
-	    font-weight: 600;
-	    font-size: 1.455em;
-	    line-height: 1.636em;
-	    text-transform: uppercase;
-	    float: left;
-	}
-
-	header {
+		header {
 			@include clearfix;
-	}
 
-	header .node-duration {
-	    float: right;
-	    right: 0px;
-	}
+			h3 {
+			    font-weight: 600;
+			    font-size: 1.455em;
+			    line-height: 1.636em;
+			    text-transform: uppercase;
+			    float: left;
+			}
 
-	details table {
-	    border-collapse: collapse;
-	    margin: .5em 0;
-	    width: 100%;
-	}
-
-	details table th {
-	    width: 180px;
-	}
-
-	details table td, details table th {
-	    border-bottom: 1px solid rgba($tree-node-color, .1);
-	}
-
-	details li {
-	    margin-left:2em;
+			.node-duration {
+			    float: right;
+			    right: 0px;
+			}
 	}
 
 	.query-plan-node-bar {
@@ -157,15 +151,15 @@
 	    border-radius: 6px;
 	    background-color: #dedede;
 	    position: relative;
-	}
 
-	.query-plan-node-bar-fill {
-	    border-radius: 6px;
-	    height: 100%;
-			background-color: $tree-node-bar-color;
-	    text-align: left;
-	    position: absolute;
-	    left: 0;
-	    top: 0;
+			.query-plan-node-bar-fill {
+					border-radius: 6px;
+					height: 100%;
+					background-color: $tree-node-bar-color;
+					text-align: left;
+					position: absolute;
+					left: 0;
+					top: 0;
+			}
 	}
 }

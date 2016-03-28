@@ -221,6 +221,23 @@
     <xsl:value-of select="(number($EstimateIO) + number($EstimateCPU)) * $EstimateRebinds * $EstimateRewinds" />
   </xsl:template>
 
+  <!-- Calculates the estimated operator cost percentage. -->
+  <xsl:template name="EstimatedOperatorCostPercentage">
+    <xsl:variable name="EstimatedOperatorCost">
+      <xsl:call-template name="EstimatedOperatorCost" />
+    </xsl:variable>
+    <xsl:variable name="TotalCost">
+      <xsl:value-of select="ancestor::s:StmtSimple/@StatementSubTreeCost" />
+    </xsl:variable>
+    <xsl:variable name="Percentage">
+      <xsl:choose>
+        <xsl:when test="number($EstimatedOperatorCost) div number($TotalCost) > 1">1</xsl:when>
+        <xsl:otherwise><xsl:value-of select="number($EstimatedOperatorCost) div number($TotalCost)" /></xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:value-of select="format-number($Percentage, '0%')" />
+  </xsl:template>
+
   <!-- Renders a row in the tool tip details table. -->
   <xsl:template name="ShowPlanDetailsRow">
     <xsl:param name="Label" />
@@ -259,14 +276,12 @@
 
   <!-- Displays the node cost label. -->
   <xsl:template match="s:RelOp" mode="NodeCostLabel">
-    <xsl:variable name="EstimatedOperatorCost">
-      <xsl:call-template name="EstimatedOperatorCost" />
-    </xsl:variable>
-    <xsl:variable name="TotalCost">
-      <xsl:value-of select="ancestor::s:StmtSimple/@StatementSubTreeCost" />
+
+    <xsl:variable name="EstimatedOperatorCostPercentage">
+      <xsl:call-template name="EstimatedOperatorCostPercentage" />
     </xsl:variable>
     <span class="node-duration">
-      <xsl:value-of select="format-number(number($EstimatedOperatorCost) div number($TotalCost), '0%')" />
+      <xsl:value-of select="$EstimatedOperatorCostPercentage" />
     </span>
   </xsl:template>
 
@@ -278,15 +293,12 @@
     <xsl:variable name="EstimatedOperatorCost">
       <xsl:call-template name="EstimatedOperatorCost" />
     </xsl:variable>
-    <xsl:variable name="TotalCost">
-      <xsl:value-of select="ancestor::s:StmtSimple/@StatementSubTreeCost" />
-    </xsl:variable>
-    <xsl:variable name="PercentCost">
-      <xsl:value-of select="format-number(number($EstimatedOperatorCost) div number($TotalCost), '0%')" />
+    <xsl:variable name="EstimatedOperatorCostPercentage">
+      <xsl:call-template name="EstimatedOperatorCostPercentage" />
     </xsl:variable>
     <div class="query-plan-summary-footer">
       <div class="query-plan-node-bar">
-        <span class="query-plan-node-bar-fill" style="width: {$PercentCost}"></span>
+        <span class="query-plan-node-bar-fill" style="width: {$EstimatedOperatorCostPercentage}"></span>
       </div>
       <div>
         Cost: <xsl:call-template name="round">
