@@ -74,6 +74,15 @@
   /*Time for some hover effects*/
   /*We will apply the hover effect the the lineage of the element also*/
   /*Connector styles on hover*/ }
+  .query-plan-node h3 {
+    font-weight: 600;
+    font-size: 1.455em;
+    line-height: 1.636em;
+    text-transform: uppercase;
+    float: left; }
+  .query-plan-node h4 {
+    font-weight: bold;
+    font-size: 1em; }
   .query-plan-node:hover, .query-plan-node:hover + ul li div.query-plan-node {
     border: 1px solid #317ECC;
     -webkit-box-shadow: 1px 1px 3px rgba(49, 126, 204, 0.2);
@@ -127,12 +136,6 @@
       display: table; }
     .query-plan-node header:after {
       clear: both; }
-    .query-plan-node header h3 {
-      font-weight: 600;
-      font-size: 1.455em;
-      line-height: 1.636em;
-      text-transform: uppercase;
-      float: left; }
     .query-plan-node header .node-duration {
       float: right;
       right: 0px; }

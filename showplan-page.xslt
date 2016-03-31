@@ -22,6 +22,7 @@
         <script>
           $( document ).ready(function() {
             $("#container").centerQueryPlan();
+            $("#container").addQueryPlanZoom();
           });
         </script>
       </body>

@@ -303,7 +303,7 @@
       <div>
         Cost: <xsl:call-template name="round">
           <xsl:with-param name="value" select="$EstimatedOperatorCost" />
-        </xsl:call-template>  | Rows: <xsl:value-of select="@StatementEstRows | @EstimateRows" />
+        </xsl:call-template>  | Rows: <xsl:value-of select="@RunTimeInformation/s:RunTimeCountersPerThread/@ActualRows | @StatementEstRows | @EstimateRows" />
       </div>
     </div>
   </xsl:template>
