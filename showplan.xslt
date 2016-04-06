@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+  xmlns:exsl="http://exslt.org/common"
   xmlns:s="http://schemas.microsoft.com/sqlserver/2004/07/showplan"
   exclude-result-prefixes="msxsl s xsl">
 
@@ -142,7 +143,6 @@
           <xsl:variable name="TotalCost">
             <xsl:value-of select="ancestor::s:StmtSimple/@StatementSubTreeCost" />
           </xsl:variable>
-
           <xsl:call-template name="round">
             <xsl:with-param name="value" select="$EstimatedOperatorCost" />
           </xsl:call-template>
@@ -188,37 +188,22 @@
 
   <!-- Calculates the estimated operator cost. -->
   <xsl:template name="EstimatedOperatorCost">
-    <xsl:variable name="EstimateIO">
-      <xsl:call-template name="convertSciToNumString">
-        <xsl:with-param name="inputVal" select="@EstimateIO" />
-      </xsl:call-template>
+    <xsl:variable name="AllChildSubTreeCosts">
+        <xsl:for-each select="*/s:RelOp">
+          <cost>
+            <xsl:call-template name="convertSciToNumString">
+              <xsl:with-param name="inputVal" select="@EstimatedTotalSubtreeCost" />
+            </xsl:call-template>
+          </cost>
+        </xsl:for-each>
     </xsl:variable>
-    <xsl:variable name="EstimateCPU">
-      <xsl:call-template name="convertSciToNumString">
-        <xsl:with-param name="inputVal" select="@EstimateCPU" />
-      </xsl:call-template>
+    <xsl:variable name="ChildSubTreeCosts">
+        <xsl:value-of select="sum(exsl:node-set($AllChildSubTreeCosts)/cost)"/>
     </xsl:variable>
-    <xsl:variable name="EstimateRebinds">
-      <xsl:choose>
-        <xsl:when test="@EstimateRebinds = 0">1</xsl:when>
-        <xsl:otherwise>
-          <xsl:call-template name="convertSciToNumString">
-            <xsl:with-param name="inputVal" select="@EstimateRebinds" />
-          </xsl:call-template>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="EstimateRewinds">
-      <xsl:choose>
-        <xsl:when test="@EstimateRewinds = 0">1</xsl:when>
-        <xsl:otherwise>
-          <xsl:call-template name="convertSciToNumString">
-            <xsl:with-param name="inputVal" select="@EstimateRewinds" />
-          </xsl:call-template>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:value-of select="(number($EstimateIO) + number($EstimateCPU)) * $EstimateRebinds * $EstimateRewinds" />
+    <xsl:choose>
+      <xsl:when test="number(@EstimatedTotalSubtreeCost) - (number($ChildSubTreeCosts)) &lt; 0">0</xsl:when>
+      <xsl:otherwise><xsl:value-of select="number(@EstimatedTotalSubtreeCost) - (number($ChildSubTreeCosts))" /></xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Calculates the estimated operator cost percentage. -->
@@ -276,7 +261,6 @@
 
   <!-- Displays the node cost label. -->
   <xsl:template match="s:RelOp" mode="NodeCostLabel">
-
     <xsl:variable name="EstimatedOperatorCostPercentage">
       <xsl:call-template name="EstimatedOperatorCostPercentage" />
     </xsl:variable>
@@ -296,14 +280,23 @@
     <xsl:variable name="EstimatedOperatorCostPercentage">
       <xsl:call-template name="EstimatedOperatorCostPercentage" />
     </xsl:variable>
+    <xsl:variable name="TotalCost">
+      <xsl:value-of select="ancestor::s:StmtSimple/@StatementSubTreeCost" />
+    </xsl:variable>
+    <xsl:variable name="EstimatedTotalSubtreeCost">
+        <xsl:value-of select="@EstimatedTotalSubtreeCost" />
+    </xsl:variable>
+    <xsl:variable name="EstimatedTotalSubtreeCostPercent">
+        <xsl:value-of select="format-number(number($EstimatedTotalSubtreeCost) div number($TotalCost), '0%')" />
+    </xsl:variable>
     <div class="query-plan-summary-footer">
       <div class="query-plan-node-bar">
         <span class="query-plan-node-bar-fill" style="width: {$EstimatedOperatorCostPercentage}"></span>
       </div>
       <div>
-        Cost: <xsl:call-template name="round">
-          <xsl:with-param name="value" select="$EstimatedOperatorCost" />
-        </xsl:call-template>  | Rows: <xsl:value-of select="@RunTimeInformation/s:RunTimeCountersPerThread/@ActualRows | @StatementEstRows | @EstimateRows" />
+        <span class="has-data-percent"  data-operator-cost-percent="{$EstimatedOperatorCostPercentage}"> Cost: <xsl:call-template name="round"><xsl:with-param name="value" select="$EstimatedOperatorCost" /></xsl:call-template></span>
+        | <span class="has-data-percent"  data-operator-cost-percent="{$EstimatedTotalSubtreeCostPercent}"> Subtree: <xsl:call-template name="round"><xsl:with-param name="value" select="@EstimatedTotalSubtreeCost" /></xsl:call-template></span>
+        | Rows: <xsl:value-of select="@RunTimeInformation/s:RunTimeCountersPerThread/@ActualRows | @StatementEstRows | @EstimateRows" />
       </div>
     </div>
   </xsl:template>
