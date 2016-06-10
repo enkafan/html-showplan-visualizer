@@ -38,7 +38,7 @@ Things that are missing for a reason:
 ###Todo:###
 
  * Start far left. On super complex queries you gotta scroll WAY to the left to find the initial statement.
- * Estimated Operator Cost has a bug but I'm not quite sure what it is. Justin's library was way off for specific operators. I'm about 95% sure it was related to rebinds and rewinds not being taken into account in the calculation. That resolves the issue of some queries having four operators equal to 3% total. However there is still an issue with some queries going over 110%. SSMS displays them properly. I'm not sure if they are punting on queries over 100% and just rounding down, or if they work some additional magic on their estimated operator cost that I'm not aware of.
+ * **Fixed:*8 Estimated Operator Cost has a bug but I'm not quite sure what it is. Justin's library was way off for specific operators. I'm about 95% sure it was related to rebinds and rewinds not being taken into account in the calculation. That resolves the issue of some queries having four operators equal to 3% total. However there is still an issue with some queries going over 110%. SSMS displays them properly. I'm not sure if they are punting on queries over 100% and just rounding down, or if they work some additional magic on their estimated operator cost that I'm not aware of.
  * Color code each operator.
    * Logical and physical operators should be blue.
    * Cursor operators should be yellow.
